@@ -1,0 +1,69 @@
+@host=http://localhost:3000
+
+### GET /users (successful)
+GET {{host}}/users
+
+### GET /users/:id (successful)
+GET {{host}}/users/1
+
+### GET /users (unsuccessful)
+GET {{host}}/users/20
+
+### GET /playlists (successful)
+GET {{host}}/playlists
+
+### GET /playlists/:id (successful)
+GET {{host}}/playlists/1
+
+### POST /playlists (successful)
+POST {{host}}/playlists
+Content-Type: application/json
+
+{
+    "name": "THE new playlist",
+    "description": "My new playlist will start off with 3 songs",
+    "ownerId": 1,
+    "trackIds": [2,5,10]
+}
+
+### POST /playlists (unsuccessful: name and ownerId typo)
+POST {{host}}/playlists
+Content-Type: application/json
+
+{
+    "nam": "THE new playlist",
+    "description": "My new playlist will start off with 3 songs",
+    "ownerI": 1,
+    "trackIds": [2,5,10,11]
+}
+
+### POST /playlists (unsuccessful: invalid owner)
+POST {{host}}/playlists
+Content-Type: application/json
+
+{
+    "name": "THE new playlist",
+    "description": "My new playlist will start off with 3 songs",
+    "ownerId": 10,
+    "trackIds": [2,5,10]
+}
+
+### POST /playlists (unsuccessful: invalid trackId)
+POST {{host}}/playlists
+Content-Type: application/json
+
+{
+    "name": "THE new playlist",
+    "description": "My new playlist will start off with 3 songs",
+    "ownerId": 1,
+    "trackIds": [2,5,100]
+}
+
+### GET /tracks (successful)
+GET {{host}}/tracks
+
+### GET /tracks/:id (successful)
+GET {{host}}/tracks/1
+
+### GET /tracks/:id (unsuccessful: invalid trackId)
+GET {{host}}/tracks/100
