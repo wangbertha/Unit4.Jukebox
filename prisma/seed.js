@@ -1,14 +1,16 @@
 const prisma = require("../prisma");
+const { faker } = require("@faker-js/faker");
+
 const seed = async (numUsers, numPlaylists, numTracks) => {
   // Create Users
   const users = Array.from({ length: numUsers }, (_, i) => ({
-    username: `User ${i+1}`,
+    username: faker.internet.userName(),
   }));
   await prisma.user.createMany({ data: users });
 
   // Create Tracks
   const tracks = Array.from({ length: numTracks }, (_, i) => ({
-    name: `Track ${i+1}`,
+    name: faker.music.songName(),
   }));
   await prisma.track.createMany({ data: tracks });
 
@@ -18,10 +20,11 @@ const seed = async (numUsers, numPlaylists, numTracks) => {
     const tracks = Array.from({ length: 8 }, () => ({
         id: Math.floor(Math.random() * numTracks) + 1,
     }))
+    const genre = faker.music.genre();
     await prisma.playlist.create({
         data: {
-            name: `Playlist ${i}`,
-            description: "This playlist has a lot of stuff.",
+            name: `${genre} ${i+1}`,
+            description: `This playlist includes 8 songs across the ${genre} genre. Grab your favorite drink, company, and bask in all the feels.`,
             ownerId: ownerId,
             tracks: {
                 connect: tracks,
